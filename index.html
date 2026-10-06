@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Clean Dot Grid Pattern matching the reference */
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 32px 32px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #10B981;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+        }
+
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            0% { transform: translateY(40px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
+
+    <!-- Dot Grid Background -->
+    <div class="bg-pattern"></div>
+
+    <!-- Soft Glass Luxury Card (Restored) -->
+    <div class="bg-white/80 backdrop-blur-3xl rounded-[36px] border border-white/60 shadow-[0_30px_100px_rgba(15,23,42,0.08)] hover:shadow-[0_40px_120px_rgba(15,23,42,0.12)] transition-all duration-500 max-w-md w-full p-8 md:p-10 text-center relative overflow-hidden animate-fade-in-up z-10">
+        
+        <!-- Animated success icon in a subtle multi-layered ring -->
+        <div class="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-emerald-50 border border-emerald-100/50 mb-6 relative z-10 animate-scale-in shadow-[0_8px_30px_rgba(16,185,129,0.08)]">
+            <div class="absolute inset-2 bg-gradient-to-tr from-emerald-500/10 to-teal-400/5 rounded-full animate-pulse"></div>
+            <svg class="checkmark w-12 h-12 relative z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark__check" fill="none" stroke="#10B981" stroke-width="4.5" stroke-linecap="round" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+        </div>
+
+        <!-- Heading & Details -->
+        <h2 class="text-3xl font-extrabold text-slate-800 mb-2.5 tracking-tight z-10 relative">Payment Successful!</h2>
+        <p class="text-slate-500 text-sm md:text-base mb-8 z-10 relative font-medium leading-relaxed max-w-xs mx-auto">Thank you for your purchase. Your transaction was completed smoothly.</p>
+
+        <!-- Transaction Details Box -->
+        <div class="bg-slate-50/70 backdrop-blur-md rounded-2xl p-5 mb-8 text-left z-10 relative border border-slate-100/80 shadow-inner">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Amount Paid</span>
+                <span class="text-emerald-600 font-extrabold text-xl">$149.00</span>
+            </div>
+            
+            <div class="h-[1px] bg-slate-200/50 my-3.5"></div>
+
+            <div class="space-y-2.5">
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-500 text-xs font-semibold">Transaction ID</span>
+                    <span class="text-slate-700 font-bold text-sm tracking-wide">TXN-894320184</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-500 text-xs font-semibold">Date & Time</span>
+                    <!-- Live Time ID -->
+                    <span id="live-time" class="text-slate-700 font-bold text-sm">Loading...</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-500 text-xs font-semibold">Method</span>
+                    <span class="text-slate-700 font-bold text-sm flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Visa (•••• 4242)
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="space-y-3 z-10 relative">
+            <button class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-4 rounded-2xl transition-all duration-300 shadow-xl shadow-slate-950/10 hover:shadow-2xl hover:shadow-slate-950/15 transform hover:-translate-y-0.5 active:translate-y-0">
+                Download Receipt
+            </button>
+            <button class="w-full bg-white hover:bg-slate-50/50 text-slate-700 font-bold py-3.5 px-4 rounded-2xl transition-all duration-300 border border-slate-200 shadow-sm hover:shadow">
+                Return to Dashboard
+            </button>
+        </div>
+
+        <!-- Secure badge -->
+        <p class="text-[11px] text-slate-400 mt-6 z-10 relative flex items-center justify-center gap-1 font-semibold">
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.166 4.9L8 1.154l5.834 3.746A1 1 0 0114.34 5.8v4.7a7.5 7.5 0 01-6 7.3l-.34.05a7.5 7.5 0 01-6.34-7.35V5.8a1 1 0 01.506-.88zM8 3.328L3.5 6.214v4.286c0 3.125 1.944 5.862 4.5 6.645a7.07 7.07 0 004.5-6.645V6.214L8 3.328z" clip-rule="evenodd"></path></svg>
+            Secure 256-bit SSL encrypted payment
+        </p>
+    </div>
+
+    <script>
+        function generateLiveTime() {
+            const now = new Date();
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            
+            const month = months[now.getMonth()];
+            const date = String(now.getDate()).padStart(2, '0');
+            const year = now.getFullYear();
+            
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            
+            const formattedTime = `${month} ${date}, ${year} - ${hours}:${minutes} ${ampm}`;
+            document.getElementById('live-time').innerText = formattedTime;
+        }
+
+        window.onload = function() {
+            generateLiveTime();
+
+            var duration = 2.5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 50 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 40 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount,
+                    origin: { x: randomInRange(0.15, 0.35), y: Math.random() - 0.2 }
+                }));
+                confetti(Object.assign({}, defaults, { particleCount,
+                    origin: { x: randomInRange(0.65, 0.85), y: Math.random() - 0.2 }
+                }));
+            }, 250);
+        };
+    </script>
+</body>
+</html>
